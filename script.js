@@ -29,11 +29,27 @@ $(document).ready(function(){
 
 	});
 	
+
+$("#file-upload").change(function(e){
+			var file     = e.target.files[0];
+			var filename = file.name;
+			var name     = document.getElementById('exampleFormControlInput1').value;
+			if(name==''){
+				alert('Pls provide name then upload your file!');
+				document.forms['clientdetails'].elements['file'].value='';
+			}
+			else{
+				firebase.storage().ref(`${name}/`+filename).put(file);
+			}
+});
+
+
 $("#client-form").submit(function(e){
 		e.preventDefault();
 		var email	=	document.forms['clientdetails'].elements['clientemail'].value;
 		var name	=	document.forms['clientdetails'].elements['clientname'].value;
 		var msg		=	document.forms['clientdetails'].elements['clientmsg'].value;
+
 
 	firebase.database().ref('clientdetails/'+name).set({
     name: name,
@@ -42,9 +58,11 @@ $("#client-form").submit(function(e){
   });
 
 
+
 	document.forms['clientdetails'].elements['clientemail'].value='';
 	document.forms['clientdetails'].elements['clientname'].value='';
 	document.forms['clientdetails'].elements['clientmsg'].value='';
+	document.forms['clientdetails'].elements['file'].value='';
 
 });
 
