@@ -51,7 +51,7 @@ $("#client-form").submit(function(e){
 		var msg		=	document.forms['clientdetails'].elements['clientmsg'].value;
 
 
-	firebase.database().ref('clientdetails/'+name).set({
+	firebase.database().ref('clientdetails/').push().set({
     name: name,
     email: email,
     message: msg
